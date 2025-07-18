@@ -1,5 +1,8 @@
+//job: layout the overall structure of a full page
+
+
 import React from 'react';
-import CatList from "../components/CatList";
+import CatList from '../components/CatList';
 
 export default function CatDatabase() {
   return (

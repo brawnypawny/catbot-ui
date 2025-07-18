@@ -5,7 +5,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <Outlet />  {/* Where nested pages like Home, Login, etc. will render */}
 
     </>
   );

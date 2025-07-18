@@ -10,11 +10,13 @@ export async function getCats() {
         age
         breed
       }
+    }
     `
   const res = await fetch(backend_url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
     body: JSON.stringify({ query }),
   });
@@ -29,6 +31,9 @@ export async function addCat(cat) {
   if (!cat.name || !cat.age) {
     throw new Error('Name and age are required');
   }
+
+  const token = localStorage.getItem('token');
+
   const mutation = `
     mutation createCat($createCatDto: CreateCatDto!) {
       createCat(CreateCatDto: $createCatDto) {
@@ -40,18 +45,20 @@ export async function addCat(cat) {
     }
   `;
 
-const variables = {
-  createCatDto: {
-    name: cat.name,
-    age: parseInt(cat.age), // force age to be a number
-    breed: cat.breed || '', // Default to empty string if no breed 
+
+  const variables = {
+    createCatDto: {
+      name: cat.name,
+      age: parseInt(cat.age), // force age to be a number
+      breed: cat.breed || '', // default to empty string if no breed
+    }
   }
-}
 
   const res = await fetch(backend_url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify({ query: mutation, variables }),
   });
