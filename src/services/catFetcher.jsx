@@ -21,11 +21,27 @@ export async function getCats() {
     body: JSON.stringify({ query }),
   });
 
-  if (!res.ok) throw new Error('Failed to fetch cats');
-  const result = await res.json();
-  return result.data.cats;
 
+ if (!res.ok) {
+    throw new Error(`Network error: ${res.status} ${res.statusText}`);
+  }
+
+  const result = await res.json();
+
+  if (result.errors && result.errors.length > 0) {
+    // Log or handle GraphQL errors better + properly
+    console.error('GraphQL errors:', result.errors);
+    throw new Error(result.errors[0].message);
+  }
+
+  if (!result.data || !result.data.cats) {
+    throw new Error('No cats data returned');
+  }
+
+  return result.data.cats;
 }
+
+
 
 export async function addCat(cat) {
   if (!cat.name || !cat.age) {
@@ -71,4 +87,36 @@ export async function addCat(cat) {
   }
 
   return result.data.createCat;
+}
+
+
+
+
+
+export async function deleteCat(id) {
+  const mutation = `
+    mutation DeleteCat($id: String!) {
+      deleteCat(id: $id)
+    }
+  `;
+
+  const variables = { id };
+
+  const res = await fetch(backend_url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`, // auth header
+    },
+    body: JSON.stringify({ query: mutation, variables }),
+  });
+
+  const result = await res.json();
+
+  if (result.errors) {
+    console.error(result.errors);
+    throw new Error(result.errors[0].message);
+  }
+
+  return result.data.deleteCat; // expect confirmation message
 }

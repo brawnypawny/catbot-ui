@@ -7,6 +7,7 @@ import CatDatabase from "./pages/CatDatabase";
 import AddCat from "./pages/AddCat";
 import Login from './pages/Login';
 import CatList from "./components/CatList";
+import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
@@ -18,9 +19,10 @@ const router = createBrowserRouter([
     ),
     children: [
       { path: "/", element: <Home /> },
-      { path: "cat-database", element: <CatList /> },
+      { path: "cat-database", element: <CatDatabase /> },
       { path: "create", element: <AddCat /> },
       { path: "login", element: <Login /> },
+      { path: 'register', element: <Register /> },
     ],
     errorElement: (
       <h1>

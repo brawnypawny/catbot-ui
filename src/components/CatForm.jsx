@@ -9,6 +9,8 @@ export default function CatForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -27,54 +29,58 @@ export default function CatForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
 
+ /* css classes for styling */
+<div>
+  <form className="cat-form" onSubmit={handleSubmit}>
+    <label>
+      Name:
+      <input
+        type="text"
+        placeholder="Cat Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+    </label>
 
+    <label>
+      Age:
+      <input
+        type="number"
+        placeholder="Age"
+        value={age}
+        onChange={(e) => setAge(e.target.value)}
+        required
+        min="0"
+      />
+    </label>
 
-{ /* css classes for styling */}
-      <div className="cat-form-container">
-        <form className="cat-form" onSubmit={handleSubmit}>
-          <label>
-            Name:
-            <input
-              type="text"
-              placeholder="Cat Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </label>
+    <label>
+      Breed:
+      <select
+        value={breed}
+        onChange={(e) => setBreed(e.target.value)}
+        required
+      >
+        <option value="">Select a color</option>
+        <option value="red">Red Cat</option>
+        <option value="orange">Orange Cat</option>
+        <option value="yellow">Yellow Cat</option>
+        <option value="green">Green Cat</option>
+        <option value="blue">Blue Cat</option>
+        <option value="purple">Purple Cat</option>
+        <option value="brown">Brown Cat</option>
+        <option value="rainbow">Rainbow Cat</option>
+      </select>
+    </label>
 
-          <label>
-            Age:
-            <input
-              type="number"
-              placeholder="Age"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              required
-              min="0"
-            />
-          </label>
+    <button type="submit">Add Cat</button>
 
-          <label>
-            Breed:
-            <input
-              type="text"
-              placeholder="Breed"
-              value={breed}
-              onChange={(e) => setBreed(e.target.value)}
-              required
-            />
-          </label>
+    {error && <p style={{ color: 'red' }}>{error}</p>}
+    {success && <p style={{ color: 'green' }}>{success}</p>}
+  </form>
+</div>
 
-          <button type="submit">Add Cat</button>
-
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          {success && <p style={{ color: 'green' }}>{success}</p>}
-        </form>
-      </div>
-
-    </form>
   );   
 }

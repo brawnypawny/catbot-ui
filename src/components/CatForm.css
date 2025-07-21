@@ -1,8 +1,10 @@
 .cat-form-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  justify-content: center;  /* center horizontally */
+  align-items: center;      /* center vertically */
+  min-height: 100vh;        /* full viewport height to center vertically */
+  padding: 20px;            /* some breathing room */
+  box-sizing: border-box;   /* include padding in size */
 }
 
 .cat-form {
@@ -59,4 +61,13 @@
 
 .cat-form button:hover {
   background-color: #305f9b;
+}
+
+
+select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  width: 100%;
 }

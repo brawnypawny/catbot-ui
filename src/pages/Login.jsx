@@ -1,33 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
 import './Login.css';
 import { AuthContext } from '../services/AuthContext';
+import { loginUser } from '../services/userFetcher';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);  //login function determines if user is logged in
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          //don't need to set Authorization header because @Public is set to authguard enpoint
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!res.ok) throw new Error('Login failed');
-
-      const data = await res.json();
-      login(data.access_token); //localStorage.setItem('token', data.access_token);
+      const token = await loginUser(username, password);
+      localStorage.setItem('token', token);    
       navigate('/cat-database');
     } catch (err) {
       console.error(err);
@@ -36,8 +25,7 @@ export default function Login() {
   };
 
   return (
-    //uses css styling
-    <div className="login-form-container">      
+    <div className="login-form-container">
       <form className="login-form" onSubmit={handleLogin}>
         <h2>Login</h2>
 
@@ -60,7 +48,17 @@ export default function Login() {
         <button type="submit">Log In</button>
 
         {error && <p className="error-message">{error}</p>}
+
+
+        <p className="center-text">
+          Don’t have an account?{' '}
+          <a href="/register" className="text-[#397dc1] underline">
+            Register here
+          </a>
+        </p>
+      
       </form>
+
     </div>
   );
 }
