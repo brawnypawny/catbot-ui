@@ -1,4 +1,4 @@
-const backend_url = 'http://localhost:3000/graphql'; 
+const backend_url = import.meta.env.VITE_BACKEND_URL; //used to be localhost:3000
 
 
 export async function getCats() {

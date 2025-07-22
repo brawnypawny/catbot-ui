@@ -1,4 +1,4 @@
-const backend_url = 'http://localhost:3000/graphql';
+const backend_url = import.meta.env.VITE_BACKEND_URL;
 
 export async function registerUser(username, password) {
   const mutation = `
